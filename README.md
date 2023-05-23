@@ -23,7 +23,7 @@ Add the following line to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  weekview_calendar: ^1.0.0
+  weekview_calendar: ^0.0.1
 ```
 
 ### Basic setup
