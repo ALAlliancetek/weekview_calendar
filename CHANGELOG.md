@@ -1,3 +1,7 @@
+## [0.0.2] - Month and Year Selection
+
+* Month and Year selection based on firstDay and lastDay
+
 ## [0.0.1] - Initial release
 
-* Fully working WeekviewCalendar; example included
+* Fully working WeekView Calendar; example included

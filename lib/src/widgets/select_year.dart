@@ -5,18 +5,26 @@ import '../style/select_year_options.dart';
 class SelectYear extends StatelessWidget {
   late List years;
   final DateTime focusedMonth;
+  final DateTime firstDate;
+  final DateTime lastDate;
 
-  Function(int year) onHeaderChanged;
+  Function(int year, DateTime selectedDate) onHeaderChanged;
 
   YearOptions? yearStyle;
 
-  SelectYear({required this.onHeaderChanged, required this.focusedMonth, this.yearStyle});
+  SelectYear(
+      {required this.onHeaderChanged,
+      required this.focusedMonth,
+      this.yearStyle,
+      required this.firstDate,
+      required this.lastDate});
 
   ScrollController _scrollController = ScrollController();
 
   late VoidCallback scrollToPositionCallback;
 
-  late int selectedYear = focusedMonth.year;//CalendarUtils.getPartByInt(format: PartFormat.YEAR);
+  late int selectedYear =
+      focusedMonth.year; //CalendarUtils.getPartByInt(format: PartFormat.YEAR);
 
   late BoxDecoration selectedDecoration;
 
@@ -59,8 +67,9 @@ class SelectYear extends StatelessWidget {
                 child: GridView.builder(
                     controller: _scrollController,
                     itemCount: years.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3, mainAxisExtent: 50),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3, mainAxisExtent: 50),
                     itemBuilder: (context, index) =>
                         yearWidgetMaker(years[index], context)),
               ),
@@ -71,11 +80,16 @@ class SelectYear extends StatelessWidget {
     );
   }
 
+  DateTime getSelectedDate(int year) {
+    return DateTime(year, focusedMonth.month, focusedMonth.day);
+  }
+
   Widget yearWidgetMaker(year, context) {
     return InkWell(
       onTap: (() {
+        DateTime selectedDate = getSelectedDate(year);
         Navigator.pop(context);
-        onHeaderChanged.call(year);
+        onHeaderChanged.call(year, selectedDate);
       }),
       child: Center(
         child: Container(
@@ -95,7 +109,8 @@ class SelectYear extends StatelessWidget {
   }
 
   double findSelectedYearOffset() {
-    final size = _scrollController.position.maxScrollExtent / (years.length / 3);
+    final size =
+        _scrollController.position.maxScrollExtent / (years.length / 3);
     return size * (years.indexOf(selectedYear)) / 3;
   }
 
@@ -108,9 +123,13 @@ class SelectYear extends StatelessWidget {
   }
 
   List<int> getYears() {
-    int year = focusedMonth.year;
+    int startYear = firstDate.year;
+    int endYear = lastDate.year;
+
+    //int year = focusedMonth.year;
     List<int> years = [];
-    for (var i = -100; i <= 50; i++) years.add(year + i);
+    //for (var i = -100; i <= 50; i++) years.add(year + i);
+    for (var i = startYear; i <= endYear; i++) years.add(i);
     return years;
   }
 }

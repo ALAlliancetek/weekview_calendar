@@ -4,7 +4,7 @@ import 'package:weekview_calendar/src/widgets/select_month.dart';
 import 'package:weekview_calendar/src/widgets/select_year.dart';
 
 import '../customization/header_style.dart';
-import '../shared/utils.dart' show CalendarFormat, DayBuilder;
+import '../shared/utils.dart' show CalendarFormat, DayBuilder, isSameDay;
 import '../style/select_month_options.dart';
 import '../style/select_year_options.dart';
 import 'custom_icon_button.dart';
@@ -22,8 +22,12 @@ class CalendarHeader extends StatelessWidget {
   final ValueChanged<CalendarFormat> onFormatButtonTap;
   final Map<CalendarFormat, String> availableCalendarFormats;
   final DayBuilder? headerTitleBuilder;
-  Function(int selectedYear) onYearChanged;
-  Function(int selectedMonth) onMonthChanged;
+  Function(int selectedYear, DateTime selectedDate) onYearChanged;
+  Function(int selectedMonth, DateTime selectedDate) onMonthChanged;
+  Function() onDateReset;
+  final DateTime firstDate;
+  final DateTime lastDate;
+  final bool isToday;
 
   CalendarHeader(
       {Key? key,
@@ -39,7 +43,11 @@ class CalendarHeader extends StatelessWidget {
       required this.availableCalendarFormats,
       this.headerTitleBuilder,
       required this.onYearChanged,
-      required this.onMonthChanged})
+      required this.onMonthChanged,
+      required this.firstDate,
+      required this.lastDate,
+      required this.isToday,
+      required this.onDateReset})
       : super(key: key);
 
   @override
@@ -67,6 +75,9 @@ class CalendarHeader extends StatelessWidget {
             ),
           Expanded(
             child: Row(
+              mainAxisAlignment: headerStyle.titleCentered
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.start,
               children: [
                 headerTitleBuilder?.call(context, focusedMonth) ??
                     GestureDetector(
@@ -79,9 +90,12 @@ class CalendarHeader extends StatelessWidget {
                               onHeaderChanged: onMonthChanged,
                               monthStyle: MonthOptions(
                                   //font: CalendarOptions.of(context).font,
-                                  selectedColor: Colors.red,
+                                  selectedColor:
+                                      headerStyle.selectMonthYearHighlightColor,
                                   backgroundColor: Colors.white),
                               focusedMonth: focusedMonth,
+                              firstDate: firstDate,
+                              lastDate: lastDate,
                             );
                           },
                         );
@@ -107,9 +121,12 @@ class CalendarHeader extends StatelessWidget {
                         return SelectYear(
                           focusedMonth: focusedMonth,
                           onHeaderChanged: onYearChanged,
+                          firstDate: firstDate,
+                          lastDate: lastDate,
                           yearStyle: YearOptions(
                               // font:  yearStyle?.font,
-                              selectedColor: Colors.red,
+                              selectedColor:
+                                  headerStyle.selectMonthYearHighlightColor,
                               backgroundColor: Colors.white),
                         );
                       },
@@ -127,6 +144,7 @@ class CalendarHeader extends StatelessWidget {
               ],
             ),
           ),
+          buildRefreshView(context),
           if (headerStyle.formatButtonVisible &&
               availableCalendarFormats.length > 1)
             Padding(
@@ -149,6 +167,25 @@ class CalendarHeader extends StatelessWidget {
               padding: headerStyle.rightChevronPadding,
             ),
         ],
+      ),
+    );
+  }
+
+  buildRefreshView(BuildContext context) {
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 300),
+      opacity: !isToday ? 1 : 0,
+      child: InkWell(
+        customBorder: CircleBorder(),
+        onTap: onDateReset,
+        child: Padding(
+          padding: const EdgeInsets.all(5),
+          child: Icon(
+            Icons.restore,
+            size: 24,
+            color: Colors.black,
+          ),
+        ),
       ),
     );
   }

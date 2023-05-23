@@ -1,6 +1,6 @@
 name: weekview_calendar
 description: Customizable, feature-packed Week view calendar widget for Flutter.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/ALAlliancetek/weekview_calendar
 
 environment:

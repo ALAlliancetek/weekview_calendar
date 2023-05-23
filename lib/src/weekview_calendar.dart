@@ -445,6 +445,7 @@ class _WeekviewCalendarState<T> extends State<WeekviewCalendar<T>> {
           ValueListenableBuilder<DateTime>(
             valueListenable: _focusedDay,
             builder: (context, value, _) {
+              final isToday = isSameDay(value, widget.currentDay);
               return CalendarHeader(
                 headerTitleBuilder: widget.calendarBuilders.headerTitleBuilder,
                 focusedMonth: value,
@@ -457,6 +458,7 @@ class _WeekviewCalendarState<T> extends State<WeekviewCalendar<T>> {
                 availableCalendarFormats: widget.availableCalendarFormats,
                 calendarFormat: widget.calendarFormat,
                 locale: widget.locale,
+                isToday: isToday,
                 onFormatButtonTap: (format) {
                   assert(
                     widget.onFormatChanged != null,
@@ -465,23 +467,34 @@ class _WeekviewCalendarState<T> extends State<WeekviewCalendar<T>> {
 
                   widget.onFormatChanged?.call(format);
                 },
-                onYearChanged: (int selectedYear) {
-                  DateTime date =
-                      new DateTime(selectedYear, value.month, value.day);
+                onYearChanged: (int selectedYear, DateTime selectedDate) {
+                  DateTime date = new DateTime(selectedYear, value.month, 1);
+                  if (selectedDate.isAfter(widget.lastDay)) {
+                    date = widget.lastDay;
+                  }
+                  if (selectedDate.isBefore(widget.firstDay)) {
+                    date = widget.firstDay;
+                  }
                   _focusedDay.value = date;
-                  widget.onPageChanged?.call(date);
-                  widget.onDaySelected?.call(date, _focusedDay.value);
-                  setState(() {});
+                  _onDayTapped(date);
                 },
-                onMonthChanged: (int selectedMonth) {
-                  //DateTime date = value;
-                  DateTime date =
-                      new DateTime(value.year, selectedMonth, value.day);
+                onMonthChanged: (int selectedMonth, DateTime selectedDate) {
+                  DateTime date = new DateTime(value.year, selectedMonth, 1);
+                  if (selectedDate.isAfter(widget.lastDay)) {
+                    date = widget.lastDay;
+                  }
+                  if (selectedDate.isBefore(widget.firstDay)) {
+                    date = widget.firstDay;
+                  }
                   _focusedDay.value = date;
-                  widget.onPageChanged?.call(date);
-                  widget.onDaySelected?.call(date, _focusedDay.value);
-                  setState(() {});
+                  _onDayTapped(date);
                 },
+                onDateReset: () {
+                  _focusedDay.value = widget.currentDay!;
+                  _onDayTapped(_focusedDay.value);
+                },
+                firstDate: widget.firstDay,
+                lastDate: widget.lastDay,
               );
             },
           ),

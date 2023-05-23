@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weekview_calendar/weekview_calendar.dart';
 
-import '../utils.dart';
-
 class WeekViewBasicsExample extends StatefulWidget {
   @override
   _WeekViewBasicsExampleState createState() => _WeekViewBasicsExampleState();
@@ -20,10 +18,16 @@ class _WeekViewBasicsExampleState extends State<WeekViewBasicsExample> {
         title: Text('WeekView Calendar - Basics'),
       ),
       body: WeekviewCalendar(
-        firstDay: kFirstDay,
-        lastDay: kLastDay,
+        /*firstDay: kFirstDay,
+        lastDay: kLastDay,*/
+        firstDay: DateTime.now().add(const Duration(days: -365)),
+        lastDay: DateTime.now().add(const Duration(days: 365)),
         focusedDay: _focusedDay,
         calendarFormat: _calendarFormat,
+        headerStyle: HeaderStyle(
+            titleTextStyle:
+                TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            titleCentered: true),
         selectedDayPredicate: (day) {
           // Use `selectedDayPredicate` to determine which day is currently selected.
           // If this returns true, then `day` will be marked as selected.

@@ -5,12 +5,19 @@ import '../style/select_month_options.dart';
 class SelectMonth extends StatelessWidget {
   late List months;
   final DateTime focusedMonth;
+  final DateTime firstDate;
+  final DateTime lastDate;
 
-  Function(int selectedMonth) onHeaderChanged;
+  Function(int selectedMonth, DateTime selectedDate) onHeaderChanged;
 
   MonthOptions? monthStyle;
 
-  SelectMonth({required this.onHeaderChanged, this.monthStyle, required this.focusedMonth});
+  SelectMonth(
+      {required this.onHeaderChanged,
+      this.monthStyle,
+      required this.focusedMonth,
+      required this.firstDate,
+      required this.lastDate});
 
   late BoxDecoration selectedDecoration;
 
@@ -70,10 +77,58 @@ class SelectMonth extends StatelessWidget {
     );
   }
 
+  List<int> getEnableMonths(int selectedYear) {
+    List<int> enableMonths = [];
+    int firstMonth = firstDate.month;
+    int lastMonth = lastDate.month;
+    int startYear = firstDate.year;
+    int endYear = lastDate.year;
+    for (int year = startYear; year <= endYear; year++) {
+      int monthStart;
+      int monthEnd;
+      if (year == startYear) {
+        monthStart = firstMonth;
+      } else {
+        monthStart = 1;
+      }
+      if (year == endYear) {
+        monthEnd = lastMonth;
+      } else {
+        monthEnd = 12;
+      }
+
+      for (int month = monthStart; month <= monthEnd; month++) {
+        if (!enableMonths.contains(month) && selectedYear == year) {
+          enableMonths.add(month);
+        }
+      }
+    }
+    return enableMonths;
+  }
+
+  DateTime getSelectedDate(int month) {
+    return DateTime(focusedMonth.year, month, focusedMonth.day);
+  }
+
   List<TableRow> monthsWidgetMaker(context) {
-    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
 
     List<Widget> _buildRowCells(int rowIndex) {
+      List<int> enableMonths = getEnableMonths(focusedMonth.year);
+
       List<TableCell> widgets = [];
       for (var j = 0; j < 3; j++) {
         final int mMonth = (rowIndex * 3) + j + 1;
@@ -83,13 +138,17 @@ class SelectMonth extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: (() {
-                  Navigator.pop(context);
-                  onHeaderChanged.call(mMonth);
-                }),
+                onTap: enableMonths.contains(mMonth)
+                    ? (() {
+                        DateTime selectedDate = getSelectedDate(mMonth);
+                        Navigator.pop(context);
+                        onHeaderChanged.call(mMonth, selectedDate);
+                      })
+                    : null,
                 child: Container(
                   padding: EdgeInsets.all(15),
-                  decoration: mMonth == currentMonth ? selectedDecoration : null,
+                  decoration:
+                      mMonth == currentMonth ? selectedDecoration : null,
                   child: Center(
                       child: FittedBox(
                     fit: BoxFit.fitWidth,
@@ -97,7 +156,11 @@ class SelectMonth extends StatelessWidget {
                       months[(rowIndex * 3) + j].toString(),
                       style: TextStyle(
                         fontSize: 16,
-                        color: mMonth == currentMonth ? Colors.white : null,
+                        color: enableMonths.contains(mMonth)
+                            ? mMonth == currentMonth
+                                ? Colors.white
+                                : null
+                            : Colors.grey,
                         fontFamily: monthStyle?.font,
                       ),
                       maxLines: 1,
