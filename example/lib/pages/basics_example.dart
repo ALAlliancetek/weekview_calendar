@@ -20,13 +20,14 @@ class _WeekViewBasicsExampleState extends State<WeekViewBasicsExample> {
       body: WeekviewCalendar(
         /*firstDay: kFirstDay,
         lastDay: kLastDay,*/
-        firstDay: DateTime.now().add(const Duration(days: -365)),
+        firstDay: DateTime.now(),
         lastDay: DateTime.now().add(const Duration(days: 365)),
         focusedDay: _focusedDay,
         calendarFormat: _calendarFormat,
         headerStyle: HeaderStyle(
             titleTextStyle:
                 TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            monthYearChangeable: false,
             titleCentered: true),
         selectedDayPredicate: (day) {
           // Use `selectedDayPredicate` to determine which day is currently selected.

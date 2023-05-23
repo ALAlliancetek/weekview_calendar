@@ -81,25 +81,27 @@ class CalendarHeader extends StatelessWidget {
               children: [
                 headerTitleBuilder?.call(context, focusedMonth) ??
                     GestureDetector(
-                      onTap: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          context: context,
-                          builder: (BuildContext mmm) {
-                            return SelectMonth(
-                              onHeaderChanged: onMonthChanged,
-                              monthStyle: MonthOptions(
-                                  //font: CalendarOptions.of(context).font,
-                                  selectedColor:
-                                      headerStyle.selectMonthYearHighlightColor,
-                                  backgroundColor: Colors.white),
-                              focusedMonth: focusedMonth,
-                              firstDate: firstDate,
-                              lastDate: lastDate,
-                            );
-                          },
-                        );
-                      },
+                      onTap: headerStyle.monthYearChangeable
+                          ? () {
+                              showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                builder: (BuildContext mmm) {
+                                  return SelectMonth(
+                                    onHeaderChanged: onMonthChanged,
+                                    monthStyle: MonthOptions(
+                                        //font: CalendarOptions.of(context).font,
+                                        selectedColor: headerStyle
+                                            .selectMonthYearHighlightColor,
+                                        backgroundColor: Colors.white),
+                                    focusedMonth: focusedMonth,
+                                    firstDate: firstDate,
+                                    lastDate: lastDate,
+                                  );
+                                },
+                              );
+                            }
+                          : null,
                       onLongPress: onHeaderLongPress,
                       child: Text(
                         textMonth,
@@ -113,25 +115,27 @@ class CalendarHeader extends StatelessWidget {
                   width: 5,
                 ),
                 GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      backgroundColor: Colors.transparent,
-                      context: context,
-                      builder: (BuildContext mmm) {
-                        return SelectYear(
-                          focusedMonth: focusedMonth,
-                          onHeaderChanged: onYearChanged,
-                          firstDate: firstDate,
-                          lastDate: lastDate,
-                          yearStyle: YearOptions(
-                              // font:  yearStyle?.font,
-                              selectedColor:
-                                  headerStyle.selectMonthYearHighlightColor,
-                              backgroundColor: Colors.white),
-                        );
-                      },
-                    );
-                  },
+                  onTap: headerStyle.monthYearChangeable
+                      ? () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            builder: (BuildContext mmm) {
+                              return SelectYear(
+                                focusedMonth: focusedMonth,
+                                onHeaderChanged: onYearChanged,
+                                firstDate: firstDate,
+                                lastDate: lastDate,
+                                yearStyle: YearOptions(
+                                    // font:  yearStyle?.font,
+                                    selectedColor: headerStyle
+                                        .selectMonthYearHighlightColor,
+                                    backgroundColor: Colors.white),
+                              );
+                            },
+                          );
+                        }
+                      : null,
                   onLongPress: onHeaderLongPress,
                   child: Text(
                     textYear,
