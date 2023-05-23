@@ -1,4 +1,4 @@
-## [0.0.2] - Month and Year Selection
+## [0.0.3] - Month and Year Selection
 
 * Month and Year selection based on firstDay and lastDay and add property in headerStyle
 
