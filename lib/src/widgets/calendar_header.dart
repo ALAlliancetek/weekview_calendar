@@ -161,6 +161,7 @@ class CalendarHeader extends StatelessWidget {
                 padding: headerStyle.formatButtonPadding,
                 textStyle: headerStyle.formatButtonTextStyle,
                 showsNextFormat: headerStyle.formatButtonShowsNext,
+                showIcon: headerStyle.showIcon,
               ),
             ),
           if (headerStyle.rightChevronVisible)

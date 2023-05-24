@@ -23,8 +23,13 @@ class _WeekViewBasicsExampleState extends State<WeekViewBasicsExample> {
         firstDay: DateTime.now(),
         lastDay: DateTime.now().add(const Duration(days: 365)),
         focusedDay: _focusedDay,
+        availableCalendarFormats: const {
+          CalendarFormat.month: 'Month',
+          CalendarFormat.week: 'Week',
+        },
         calendarFormat: _calendarFormat,
         headerStyle: HeaderStyle(
+            showIcon: true,
             titleTextStyle:
                 TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             monthYearChangeable: false,

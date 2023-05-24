@@ -11,6 +11,7 @@ class FormatButton extends StatelessWidget {
   final BoxDecoration decoration;
   final EdgeInsets padding;
   final bool showsNextFormat;
+  final bool showIcon;
   final Map<CalendarFormat, String> availableCalendarFormats;
 
   const FormatButton({
@@ -21,19 +22,28 @@ class FormatButton extends StatelessWidget {
     required this.decoration,
     required this.padding,
     required this.showsNextFormat,
+    required this.showIcon,
     required this.availableCalendarFormats,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final child = Container(
-      decoration: decoration,
-      padding: padding,
-      child: Text(
-        _formatButtonText,
-        style: textStyle,
-      ),
-    );
+    final child = showIcon
+        ? Padding(
+            padding: padding,
+            child: Icon(
+              _formatIcon(),
+              size: 24,
+            ),
+          )
+        : Container(
+            decoration: decoration,
+            padding: padding,
+            child: Text(
+              _formatButtonText,
+              style: textStyle,
+            ),
+          );
 
     final platform = Theme.of(context).platform;
 
@@ -55,6 +65,25 @@ class FormatButton extends StatelessWidget {
   String get _formatButtonText => showsNextFormat
       ? availableCalendarFormats[_nextFormat()]!
       : availableCalendarFormats[calendarFormat]!;
+
+  IconData _formatIcon() {
+    String format;
+    if (showsNextFormat) {
+      format = availableCalendarFormats[_nextFormat()]!;
+    } else {
+      format = availableCalendarFormats[calendarFormat]!;
+    }
+    if (format == 'Month') {
+      return Icons.calendar_month_sharp;
+    }
+    if (format == 'Week') {
+      return Icons.calendar_view_week;
+    }
+    if (format == '2 weeks') {
+      return Icons.calendar_view_month;
+    }
+    return Icons.calendar_month_sharp;
+  }
 
   CalendarFormat _nextFormat() {
     final formats = availableCalendarFormats.keys.toList();

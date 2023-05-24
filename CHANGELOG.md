@@ -1,3 +1,7 @@
+## [0.0.4] - Added Icon for Changing Format of Calendar
+
+* add property in headerStyle
+
 ## [0.0.3] - Month and Year Selection
 
 * Month and Year selection based on firstDay and lastDay and add property in headerStyle

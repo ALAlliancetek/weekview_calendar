@@ -80,6 +80,8 @@ class HeaderStyle {
 
   final bool monthYearChangeable;
 
+  final bool showIcon;
+
   /// Creates a `HeaderStyle` used by `WeekView Calendar` widget.
   const HeaderStyle(
       {this.titleCentered = false,
@@ -106,5 +108,6 @@ class HeaderStyle {
       this.rightChevronVisible = true,
       this.decoration = const BoxDecoration(),
       this.selectMonthYearHighlightColor = const Color(0xFFBBDDFF),
-      this.monthYearChangeable = true});
+      this.monthYearChangeable = true,
+      this.showIcon = false});
 }
