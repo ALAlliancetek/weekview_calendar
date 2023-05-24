@@ -22,6 +22,8 @@ class _WeekViewBasicsExampleState extends State<WeekViewBasicsExample> {
         lastDay: kLastDay,*/
         firstDay: DateTime.now(),
         lastDay: DateTime.now().add(const Duration(days: 365)),
+        /*firstDay: DateTime.now().add(const Duration(days: -30)),
+        lastDay: DateTime.now(),*/
         focusedDay: _focusedDay,
         availableCalendarFormats: const {
           CalendarFormat.month: 'Month',

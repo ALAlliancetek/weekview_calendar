@@ -335,14 +335,16 @@ class _WeekviewCalendarState<T> extends State<WeekviewCalendar<T>> {
     }
   }
 
-  void _onDayTapped(DateTime day) {
-    final isOutside = day.month != _focusedDay.value.month;
-    if (isOutside && _shouldBlockOutsideDays) {
-      return;
-    }
+  void _onDayTapped(DateTime day, {bool isReset = false}) {
+    if (!isReset) {
+      final isOutside = day.month != _focusedDay.value.month;
+      if (isOutside && _shouldBlockOutsideDays) {
+        return;
+      }
 
-    if (_isDayDisabled(day)) {
-      return widget.onDisabledDayTapped?.call(day);
+      if (_isDayDisabled(day)) {
+        return widget.onDisabledDayTapped?.call(day);
+      }
     }
 
     _updateFocusOnTap(day);
@@ -491,7 +493,7 @@ class _WeekviewCalendarState<T> extends State<WeekviewCalendar<T>> {
                 },
                 onDateReset: () {
                   _focusedDay.value = widget.currentDay!;
-                  _onDayTapped(_focusedDay.value);
+                  _onDayTapped(_focusedDay.value, isReset: true);
                 },
                 firstDate: widget.firstDay,
                 lastDate: widget.lastDay,
