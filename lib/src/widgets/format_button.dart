@@ -31,9 +31,7 @@ class FormatButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = showIcon
-        ? Icon(
-            _formatIcon(),
-          )
+        ? Icon(_formatIcon(), color: Colors.black)
         : Container(
             decoration: decoration,
             padding: padding,

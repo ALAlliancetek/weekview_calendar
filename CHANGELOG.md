@@ -1,3 +1,7 @@
+## [0.0.8] - Fixes
+
+* bug fixes
+
 ## [0.0.7] - Fixes
 
 * bug fixes
