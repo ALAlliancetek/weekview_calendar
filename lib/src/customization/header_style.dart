@@ -67,6 +67,14 @@ class HeaderStyle {
   /// Tapping on it will navigate to next calendar page.
   final Widget rightChevronIcon;
 
+  final Widget resetIcon;
+
+  final EdgeInsets resetIconMargin;
+
+  final EdgeInsets resetIconPadding;
+
+  final EdgeInsets formatIconButtonPadding;
+
   /// Determines left chevron's visibility.
   final bool leftChevronVisible;
 
@@ -98,12 +106,16 @@ class HeaderStyle {
       this.headerPadding = const EdgeInsets.symmetric(vertical: 8.0),
       this.formatButtonPadding =
           const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+      this.formatIconButtonPadding = const EdgeInsets.all(12.0),
       this.leftChevronPadding = const EdgeInsets.all(12.0),
       this.rightChevronPadding = const EdgeInsets.all(12.0),
+      this.resetIconPadding = const EdgeInsets.all(12.0),
       this.leftChevronMargin = const EdgeInsets.symmetric(horizontal: 8.0),
       this.rightChevronMargin = const EdgeInsets.symmetric(horizontal: 8.0),
       this.leftChevronIcon = const Icon(Icons.chevron_left),
       this.rightChevronIcon = const Icon(Icons.chevron_right),
+      this.resetIcon = const Icon(Icons.restore),
+      this.resetIconMargin = const EdgeInsets.symmetric(horizontal: 8.0),
       this.leftChevronVisible = true,
       this.rightChevronVisible = true,
       this.decoration = const BoxDecoration(),

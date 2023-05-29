@@ -494,6 +494,7 @@ class _WeekviewCalendarState<T> extends State<WeekviewCalendar<T>> {
                 onDateReset: () {
                   _focusedDay.value = widget.currentDay!;
                   _onDayTapped(_focusedDay.value, isReset: true);
+                  setState(() {});
                 },
                 firstDate: widget.firstDay,
                 lastDate: widget.lastDay,

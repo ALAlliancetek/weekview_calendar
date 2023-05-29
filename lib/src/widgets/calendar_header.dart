@@ -159,6 +159,7 @@ class CalendarHeader extends StatelessWidget {
                 calendarFormat: calendarFormat,
                 decoration: headerStyle.formatButtonDecoration,
                 padding: headerStyle.formatButtonPadding,
+                iconButtonPadding: headerStyle.formatIconButtonPadding,
                 textStyle: headerStyle.formatButtonTextStyle,
                 showsNextFormat: headerStyle.formatButtonShowsNext,
                 showIcon: headerStyle.showIcon,
@@ -180,17 +181,11 @@ class CalendarHeader extends StatelessWidget {
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 300),
       opacity: !isToday ? 1 : 0,
-      child: InkWell(
-        customBorder: CircleBorder(),
+      child: CustomIconButton(
+        icon: headerStyle.resetIcon,
         onTap: onDateReset,
-        child: Padding(
-          padding: const EdgeInsets.all(5),
-          child: Icon(
-            Icons.restore,
-            size: 24,
-            color: Colors.black,
-          ),
-        ),
+        margin: headerStyle.resetIconMargin,
+        padding: headerStyle.resetIconPadding,
       ),
     );
   }

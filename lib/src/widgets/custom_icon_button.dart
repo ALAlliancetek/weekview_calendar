@@ -7,6 +7,7 @@ class CustomIconButton extends StatelessWidget {
   final VoidCallback onTap;
   final EdgeInsets margin;
   final EdgeInsets padding;
+  final Color iconColor;
 
   const CustomIconButton({
     Key? key,
@@ -14,6 +15,7 @@ class CustomIconButton extends StatelessWidget {
     required this.onTap,
     this.margin = const EdgeInsets.all(0.0),
     this.padding = const EdgeInsets.all(8.0),
+    this.iconColor = const Color(0xFF000000),
   }) : super(key: key);
 
   @override
@@ -28,6 +30,7 @@ class CustomIconButton extends StatelessWidget {
           ? CupertinoButton(
               onPressed: onTap,
               padding: padding,
+              color: iconColor,
               child: icon,
             )
           : InkWell(

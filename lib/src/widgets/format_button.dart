@@ -10,6 +10,7 @@ class FormatButton extends StatelessWidget {
   final TextStyle textStyle;
   final BoxDecoration decoration;
   final EdgeInsets padding;
+  final EdgeInsets iconButtonPadding;
   final bool showsNextFormat;
   final bool showIcon;
   final Map<CalendarFormat, String> availableCalendarFormats;
@@ -21,6 +22,7 @@ class FormatButton extends StatelessWidget {
     required this.textStyle,
     required this.decoration,
     required this.padding,
+    required this.iconButtonPadding,
     required this.showsNextFormat,
     required this.showIcon,
     required this.availableCalendarFormats,
@@ -29,12 +31,8 @@ class FormatButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = showIcon
-        ? Padding(
-            padding: padding,
-            child: Icon(
-              _formatIcon(),
-              size: 24,
-            ),
+        ? Icon(
+            _formatIcon(),
           )
         : Container(
             decoration: decoration,
@@ -51,14 +49,24 @@ class FormatButton extends StatelessWidget {
             (platform == TargetPlatform.iOS || platform == TargetPlatform.macOS)
         ? CupertinoButton(
             onPressed: () => onTap(_nextFormat()),
-            padding: EdgeInsets.zero,
+            padding: showIcon ? iconButtonPadding : padding,
             child: child,
           )
-        : InkWell(
+        : /*InkWell(
             borderRadius:
                 decoration.borderRadius?.resolve(Directionality.of(context)),
             onTap: () => onTap(_nextFormat()),
             child: child,
+          );*/
+        InkWell(
+            onTap: () => onTap(_nextFormat()),
+            borderRadius: showIcon
+                ? BorderRadius.circular(100.0)
+                : decoration.borderRadius?.resolve(Directionality.of(context)),
+            child: Padding(
+              padding: showIcon ? iconButtonPadding : padding,
+              child: child,
+            ),
           );
   }
 
